@@ -52,8 +52,8 @@ class Co {
   
   void nois() {
     //x += .0001;
-    noiz = noise((position.y * .05) -100);
-    noiz2 = noise((position.x * .01) + 100);
+    noiz = noise((position.y * .09) -100);
+    noiz2 = noise((position.x * .05) + 100);
     //noiz3 = noise(position.y * .005);
     //noiz4 = noise(position.x * .005);
     

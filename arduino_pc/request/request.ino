@@ -20,15 +20,13 @@ void loop() {
     // slave may send less than requested
     int c = Wire.read(); // receive a byte as character
      //Serial.print(c); 
-    
+    float d = 1000.90;
     if (c == 01) {
-       Serial.println(1000.90);
+       Serial.println(1000.9);
 
     } else if (c == 10) {
       scanner();
-    } else if (c == 11) {
-      Wire.endTransmission();
-    }
+    } 
 // print the character
   }
 

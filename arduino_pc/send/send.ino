@@ -32,13 +32,8 @@ void setup() {
   Serial.begin(9600);
   
   Wire.begin(8);                // join i2c bus with address #8
-  Wire.onRequest(requestEvent); // register event
-}
-
-void loop() {
-  
- // delay(15);
-  for (pot = 85; pot >= 40; pot -= 1) {
+  Wire.onRequest(requestEvent);
+  for (pot = 85; pot >= 30; pot -= 1) {
   servo_9.write(pot);
    //Serial.print( "outer +" + pot);
   for (pos = 80; pos >= 35; pos -= 1) {
@@ -50,6 +45,12 @@ void loop() {
     delay(40);
   }
   }
+}
+
+void loop() {
+  
+ // delay(15);
+  
 
 // for (pot = 0; pot <= 90; pot += 1) {
 //  servo_9.write(pot);
@@ -68,11 +69,11 @@ void loop() {
 // function that executes whenever data is requested by master
 // this function is registered as an event, see setup()
 void requestEvent() {
- if (pos != 35) {
+ if (pos > 35) {
      Wire.write(10);
   } else if  (pos == 35) {
       Wire.write(01);
-  }
+  } 
     
   // respond with message of 6 bytes
   // as expected by master

@@ -22,7 +22,8 @@ int newLine = 0;
 int index = 0;
 int index2 = 0;
 
-int rotation = 10;
+int rotation = 45;
+int he = 30;
 int rY = 135;
 
 Float z = 0.0;
@@ -90,7 +91,7 @@ void draw() {
     //resets the x coordinate to 0 every time the servo finishes a loop. 
     // x is removed from the y coordinate with every loop, so each new line is plotted on a new level. 
     //println(coList.size());
-    if (va == 1000.9  ) { //|| coList.size() > rotation
+    if (va == 1000.9 || coList.size() > rotation ) { //|| coList.size() > rotation
       //println(coList.size());
       //|| coList.size() > 90
       coList.clear();
@@ -190,7 +191,7 @@ void wave() {
       float c = zp;
       fill(255);
       //println(x, 12);
-      if (x >= height) {
+      if (test >= rotation) {
         m.nois();
        // n.nois();
       }
