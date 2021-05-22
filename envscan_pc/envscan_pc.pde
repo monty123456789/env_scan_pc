@@ -171,7 +171,8 @@ void wave() {
       yy = n.position.y;
       zz = n.position.z;
   
-     spheres3d();
+     //spheres3d();
+     lines3d();
    
       if (test >= rotation) {
         m.nois();
@@ -193,11 +194,11 @@ void spheres3d() {
 }
 
 void lines3d() {
-  if (zp == 1000.9 || zz == 1000.9 || xx ==0 || xp == 0 ||  coList.size() > rotation) {
+  if (xx > 600 || xp > 600) {
     stroke(0, 0);
   } else {
-  stroke(255);
-      line(xp, yp, zp, xx, yy, zz);
+  stroke(255);    
+  line(xp, yp, zp, xx, yy, zz);
  
   
     
