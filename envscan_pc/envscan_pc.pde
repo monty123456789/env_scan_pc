@@ -10,7 +10,8 @@ float va;
 Float vat = 0.0;
 Float vas = 0.0;
 
-float xp, y, zp;
+float xp, yp, zp;
+float xx, yy, zz;
 
 int test;
 
@@ -138,21 +139,6 @@ void draw() {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void spheres() {
 
 
@@ -174,52 +160,50 @@ void wave() {
       //Co n = cos.get(i);
            
       Co m = cos.get(i-1);
+      Co n = cos.get(i);
       //n.threed();
-      m.threed();
+     // m.threed();
       xp = m.position.x;
-      y = m.position.y;
+      yp = m.position.y;
       zp = m.position.z;
       
-       pushMatrix();
-     //fill(255);
-     //translate(xp,y, zp);
-     sphere(5);
-     noStroke();
-      //fill(255);
-     popMatrix();
-      
-      float c = zp;
-      fill(255);
-      //println(x, 12);
+      xx = n.position.x;
+      yy = n.position.y;
+      zz = n.position.z;
+  
+     spheres3d();
+   
       if (test >= rotation) {
         m.nois();
-       // n.nois();
+        n.nois();
       }
      
     }
 }
 
+void spheres3d() {
+  pushMatrix();
+     //fill(255);
+     translate(xp,yp, zp);
+     sphere(5);
+     noStroke();
+      //fill(255);
+     popMatrix();
+     
+}
 
+void lines3d() {
+  if (zp == 1000.9 || zz == 1000.9 || xx ==0 || xp == 0 ||  coList.size() > rotation) {
+    stroke(0, 0);
+  } else {
+  stroke(255);
+      line(xp, yp, zp, xx, yy, zz);
+ 
+  
+    
+  }
+}
 
-//if (coList.size() > 3) {
-// index2 = fullList.size();
-// float co = coList.get(index);
-// float full = fullList.get(index2);
-// float add = (co + full) /2;
-// pushMatrix();
-// translate(count - (width/rotation/2), x - (height/rotation/2), -add);
-// sphere(2);
-// popMatrix();
-// println(vat);
-// println(add);
-// }
-//void middle() {
-//  index = coList.size();
-//  index2 = fullList.size();
-//  float co = coList.get(index);
-//  float full = fullList.get(index2);
-//  float add = (co + full) /2;
-//}
 
 
 void lines() {

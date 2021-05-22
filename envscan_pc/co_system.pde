@@ -4,6 +4,8 @@ class Co {
   float noiseV;
   float noiz, noiz2, noiz3, noiz4, noiz2z, noiz3z, x;
   
+  
+  
   Co(float x, float y, float z) {
     //s
    
@@ -25,6 +27,21 @@ class Co {
       //fill(255);
      popMatrix();
   }
+  
+  void lines() {
+  // if (y > height - ad|| x > width - ad|| y < 0 + ad|| x < 0 + ad|| y > height - ad|| x > width - ad ||y < 0 + ad || x < 0 + ad) {
+  // //if (y  >height || (x  >width) ) {
+  //  stroke(0, 0);
+  //} else {
+  //  stroke(255);
+  //}
+
+ // shape(s);
+  
+  // line(x,y, z, x2, y2, z2);
+  //  //line(x2,y2, z2, x, y, z);
+  //// line(y,x, y, x);
+   }  
   
   void run() {
   
