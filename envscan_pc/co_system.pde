@@ -69,13 +69,13 @@ class Co {
   
   void nois() {
     //x += .0001;
-    noiz = noise((position.y * .09) -1);
-    noiz2 = noise((position.x * .0005) + 1);
-    //noiz3 = noise(position.y * .005);
-    //noiz4 = noise(position.x * .005);
+    noiz = noise((position.y * .009));
+    noiz2 = noise((position.x * .0005));
+    noiz3 = noise(position.y * .005);
+    noiz4 = noise(position.x * .005);
     
-    position.add(noiz, noiz2);
-   // position.sub(noiz3, noiz4);
+    position.sub(noiz, noiz2);
+    position.add(noiz3, noiz4);
   }
   
   void edge() {

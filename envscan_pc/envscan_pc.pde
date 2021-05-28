@@ -42,7 +42,7 @@ String portName;
 
 void setup()
 {
-  size(720, 480, P3D);
+  size(1080, 1080, P3D);
   background(0);
   printArray(Serial.list());
 
@@ -70,18 +70,13 @@ void draw() {
     Float va = Float.valueOf(val).floatValue();
     // printArray(va);
     //maps distance coordiantes to rgb values
-    vas = map(va, 60, 230, 255, 20);
+    vas = map(va, 30, 60, 255, 20);
 
     //makes shape is more pronounced.
     vat = va; //map(va, 25, 44, va, va*3);
 
     // coList is created to store the second plot point for the graph line to be drawn to. 
-    if (va != 1000.9) {
-      coList.append(vat);
-      fullList.append(vat);
-      count += width/rotation;
-       
-    }
+    
    
 
     // by assigning the second to last coordinates to the new variable, this can be given as a plot point
@@ -96,7 +91,7 @@ void draw() {
       //println(coList.size());
       //|| coList.size() > 90
       coList.clear();
-      fullList.clear();
+      //fullList.clear();
       //newLine +=1;
       count = 0.0;
       x += height/rotation;
@@ -104,7 +99,7 @@ void draw() {
       //x += va;
     }
     //println(x);
-     println(test + "test");
+     //println(test + "test");
    // println(height/rotation);
 
     // count is assigned to the x coordinate so with each new plot points, the coordinate moves across
@@ -113,7 +108,7 @@ void draw() {
 
     //count2 = count - width/rotation;
 
-    println(cos.size());
+    //println(cos.size());
   
 }
   
@@ -131,7 +126,7 @@ void draw() {
     wave();
     //spheres();
 
-    //saveFrame("3d_####.jpg");
+    saveFrame("3d_######.jpg");
   
 }
 
@@ -155,12 +150,22 @@ void spheres() {
 
 void wave() {
   cos.add(new Co(count, x, -vat));
+  if (va != 1000.9) {
+      coList.append(vat);
+      fullList.append(vas);
+      count += width/rotation;
+       
+    }
       
       for (int i = cos.size()-1; i>0; i--) {
       //Co n = cos.get(i);
            
       Co m = cos.get(i-1);
       Co n = cos.get(i);
+      //if (fullList.size() > 0) {
+        float col = fullList.get(i-1);
+        fill(col);
+      
       //n.threed();
      // m.threed();
       xp = m.position.x;
@@ -170,9 +175,10 @@ void wave() {
       xx = n.position.x;
       yy = n.position.y;
       zz = n.position.z;
+      
   
-     //spheres3d();
-     lines3d();
+     spheres3d();
+     //lines3d();
    
       if (test >= rotation) {
         m.nois();
@@ -188,21 +194,27 @@ void spheres3d() {
      translate(xp,yp, zp);
      sphere(5);
      noStroke();
-      //fill(255);
+     //if (zp < -60) {
+     //  fill(0);
+     //} else {
+     //  fill(255);
+     //}
+     println(zp);
+      //(255);
      popMatrix();
      
 }
 
 void lines3d() {
-  if (xx > 600 || xp > 600) {
+  if (xx  == 1000.9 || xp == 1000.9) {//> 600 || xp > 600 || xx < 10 || xp < 10) {
     stroke(0, 0);
   } else {
   stroke(255);    
   line(xp, yp, zp, xx, yy, zz);
- 
+  }
   
     
-  }
+  
 }
 
 
