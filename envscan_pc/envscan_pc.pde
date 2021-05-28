@@ -40,6 +40,9 @@ int h = height/45;
 int w = width/45;
 String portName;
 
+int mX = 0;
+int mY = 0;
+
 void setup()
 {
   size(1080, 1080, P3D);
@@ -55,11 +58,13 @@ void setup()
 
 void draw() {
   background(0);
-  camera(mouseX, mouseY, (height/2) / tan(PI/6), width/2, height/2, 0, 0, 1, 0);
+   mX +=1;
+   mY  +=1;
+  camera(mX, mY, (height/2) / tan(PI/6), width/2, height/2, 0, 0, 1, 0);
 
   //directionalLight(vas, vas, vas, 0, -10, 0);
   lights();
-
+  
   //reads the data from arduino, stores as a string to 'val'
   val = myPort.readStringUntil('\n');
   if ( val == null ||  val.isEmpty() || val.length() == 0) 
@@ -70,7 +75,7 @@ void draw() {
     Float va = Float.valueOf(val).floatValue();
     // printArray(va);
     //maps distance coordiantes to rgb values
-    vas = map(va, 30, 60, 255, 20);
+    vas = map(va, 30, 40, 255, 20);
 
     //makes shape is more pronounced.
     vat = va; //map(va, 25, 44, va, va*3);
@@ -149,6 +154,7 @@ void spheres() {
 }
 
 void wave() {
+ // lights();
   cos.add(new Co(count, x, -vat));
   if (va != 1000.9) {
       coList.append(vat);
@@ -165,6 +171,7 @@ void wave() {
       //if (fullList.size() > 0) {
         float col = fullList.get(i-1);
         fill(col);
+       // stroke(col);
       
       //n.threed();
      // m.threed();
@@ -189,10 +196,28 @@ void wave() {
 }
 
 void spheres3d() {
+  //pushMatrix();
+  //translate(width/2, height/2);
+  
+  //  sphere(200);
+    
+    //popMatrix();
   pushMatrix();
      //fill(255);
      translate(xp,yp, zp);
-     sphere(5);
+     sphere(10);
+     noStroke();
+     //if (zp < -60) {
+     //  fill(0);
+     //} else {
+     //  fill(255);
+     //}
+      //(255);
+     popMatrix();
+     
+      pushMatrix();
+     translate((xp+xx)/2,(yp + yy)/2, (zp+zz)/2);
+     sphere(10);
      noStroke();
      //if (zp < -60) {
      //  fill(0);
@@ -209,7 +234,7 @@ void lines3d() {
   if (xx  == 1000.9 || xp == 1000.9) {//> 600 || xp > 600 || xx < 10 || xp < 10) {
     stroke(0, 0);
   } else {
-  stroke(255);    
+//  stroke(255);    
   line(xp, yp, zp, xx, yy, zz);
   }
   
