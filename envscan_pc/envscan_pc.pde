@@ -13,10 +13,12 @@ Float vas = 0.0;
 float xp, yp, zp;
 float xx, yy, zz;
 
+float sx, sy, sz;
+
 int test;
 
 FloatList coList;
-FloatList fullList;
+FloatList colorList;
 Float last = 0.0; 
 Float first;
 int newLine = 0;
@@ -32,7 +34,7 @@ Float z = 0.0;
 float xcor;
 float xcor2;
 int x2;
-int x;
+int y;
 Float count = .0;
 float count2;
 
@@ -52,34 +54,35 @@ void setup()
   portName = Serial.list()[1]; 
   myPort = new Serial(this, portName, 9600);
   coList = new FloatList();
-  fullList = new FloatList();
+  colorList = new FloatList();
 }
 
 
 void draw() {
-  background(0);
+  background(155,0,0);
    mX +=1;
    mY  +=1;
-  camera(mX, mY, (height/2) / tan(PI/6), width/2, height/2, 0, 0, 1, 0);
+  camera(mouseX,mouseY, (height/2) / tan(PI/6), width/2, height/2, 0, 0, 1, 0);
 
   //directionalLight(vas, vas, vas, 0, -10, 0);
   lights();
+   // spotLight(0, 255, 255, width/2, height/2, 700, 0, 0, 0, PI, .7);
+
   
   //reads the data from arduino, stores as a string to 'val'
   val = myPort.readStringUntil('\n');
   if ( val == null ||  val.isEmpty() || val.length() == 0) 
   { 
     println("nul");
-  } else {
+  } else if (val != null &&  !val.isEmpty() && val.length() > 0) {
     //converts string of arduino data to a float
     Float va = Float.valueOf(val).floatValue();
     // printArray(va);
     //maps distance coordiantes to rgb values
-    vas = map(va, 30, 40, 255, 20);
+    vas = map(va, 0, 300, 255, 0);
 
     //makes shape is more pronounced.
     vat = va; //map(va, 25, 44, va, va*3);
-
     // coList is created to store the second plot point for the graph line to be drawn to. 
     
    
@@ -96,71 +99,38 @@ void draw() {
       //println(coList.size());
       //|| coList.size() > 90
       coList.clear();
-      //fullList.clear();
+      //colorList.clear();
       //newLine +=1;
       count = 0.0;
-      x += height/rotation;
+      y += 1;
       test +=1;
       //x += va;
     }
-    //println(x);
-     //println(test + "test");
-   // println(height/rotation);
+   
 
     // count is assigned to the x coordinate so with each new plot points, the coordinate moves across
     // the screen. 
-    
 
-    //count2 = count - width/rotation;
-
-    //println(cos.size());
-  
-}
-  
-    
-    
-    
-
-
-
-    //wave();
-    //stroke(255);
-    //lines();
-    //fill(vas);
-    //circle(count, xcor, 7);
     wave();
     //spheres();
 
     saveFrame("3d_######.jpg");
-  
-}
-
-
-
-
-
-void spheres() {
-
-
-  pushMatrix();
-  // camera(5, 500, (height/2) / tan(PI/6), width/2, height/2, 0, 0, 1, 0);
-
-  noStroke();
-  if (va != 1000.9) {
-    translate(count, x, -(vat));
-    sphere(5);
-    popMatrix();
   }
 }
 
+
+
+
+
+
 void wave() {
- // lights();
-  cos.add(new Co(count, x, -vat));
-  if (va != 1000.9) {
-      coList.append(vat);
-      fullList.append(vas);
-      count += width/rotation;
-       
+ 
+  cos.add(new Co(vat, count, y));
+   
+      
+    if (va != 1000.9) {
+      count += 1;
+      colorList.append(vas);
     }
       
       for (int i = cos.size()-1; i>0; i--) {
@@ -168,23 +138,24 @@ void wave() {
            
       Co m = cos.get(i-1);
       Co n = cos.get(i);
-      //if (fullList.size() > 0) {
-        float col = fullList.get(i-1);
+      //if (colorList.size() > 0) {
+        float col = colorList.get(i-1);
         fill(col);
        // stroke(col);
       
       //n.threed();
-     // m.threed();
-      xp = m.position.x;
-      yp = m.position.y;
-      zp = m.position.z;
+      m.threed();
       
-      xx = n.position.x;
-      yy = n.position.y;
-      zz = n.position.z;
+      //xp = m.position.x;
+      //yp = m.position.y;
+      //zp = m.position.z;
+      
+      //xx = n.position.x;
+      //yy = n.position.y;
+      //zz = n.position.z;
       
   
-     spheres3d();
+     //spheres3d();
      //lines3d();
    
       if (test >= rotation) {
@@ -195,7 +166,18 @@ void wave() {
     }
 }
 
+
+
+
+
+
+
 void spheres3d() {
+  
+  
+  sx = -vat*sin(count)*cos(y);
+  sy = -vat*sin(count)*sin(y);
+  sz = -vat*cos(count);
   //pushMatrix();
   //translate(width/2, height/2);
   
@@ -203,32 +185,60 @@ void spheres3d() {
     
     //popMatrix();
   pushMatrix();
-     //fill(255);
-     translate(xp,yp, zp);
+ 
+     translate(xp,yp,zp);
+     //translate(sx, sy, sz);
+     
+     
      sphere(10);
      noStroke();
-     //if (zp < -60) {
-     //  fill(0);
-     //} else {
-     //  fill(255);
-     //}
-      //(255);
+     
      popMatrix();
      
-      pushMatrix();
-     translate((xp+xx)/2,(yp + yy)/2, (zp+zz)/2);
-     sphere(10);
-     noStroke();
-     //if (zp < -60) {
-     //  fill(0);
-     //} else {
-     //  fill(255);
-     //}
-     println(zp);
-      //(255);
-     popMatrix();
+     // pushMatrix();
+     //translate((xp+xx)/2,(yp + yy)/2, (zp+zz)/2);
+     //sphere(10);
+     //noStroke();
+   
+     //println(zp);
+  
+     //popMatrix();
      
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void spheres() {
+
+  pushMatrix();
+  // camera(5, 500, (height/2) / tan(PI/6), width/2, height/2, 0, 0, 1, 0);
+
+  noStroke();
+  if (va != 1000.9) {
+    translate(count, y, -(vat));
+    sphere(5);
+    popMatrix();
+  }
+}
+
+
+
 
 void lines3d() {
   if (xx  == 1000.9 || xp == 1000.9) {//> 600 || xp > 600 || xx < 10 || xp < 10) {
@@ -241,6 +251,23 @@ void lines3d() {
     
   
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -264,8 +291,49 @@ void lines() {
     xcor2 = -(last);
   } 
   //translate(count-100, x, xcor);
-  line(count, x, xcor, count2, x, xcor2);
+  line(count,y, xcor, count2, y, xcor2);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -281,26 +349,26 @@ void spheresList() {
 
     vat = va;
     // print(vat + "b    ");
-    fullList.append(vat);
-    if (fullList.size() > 1) {
-      index2 = fullList.size();
+    colorList.append(vat);
+    if (colorList.size() > 1) {
+      index2 = colorList.size();
       if (z == 1000.9) {
         newLine +=1;
         count = 0.0;
-        x += height/90;
+        y += height/90;
       }
 
       if (newLine == 1) {
         int i = 1;
-        while (i < fullList.size()) {
+        while (i < colorList.size()) {
           i = i+1;
-          z = fullList.get(i-1);
+          z = colorList.get(i-1);
           // print(z + "z    ");
           // print(i + "b      ");
           count += width/90;
           fill(vas);
           noStroke();
-          translate(count, x, -z);
+          translate(count, y, -z);
           sphere(2);
         }
       }

@@ -3,30 +3,86 @@ class Co {
      float wi, wi2, wi3, wi4;
   float noiseV;
   float noiz, noiz2, noiz3, noiz4, noiz2z, noiz3z, x;
+  float sx, sy, sz;
+
   
   
-  
-  Co(float x, float y, float z) {
+  Co(float range, float theta, float phi) {
     //s
    
-   position = new PVector(x, y, z);
+   position = new PVector(range, theta, phi);
   
   }
   
-  void update() {
-    run();
-    nois();
-  }
+
   
   void threed() {
+    
+    sx = position.x * sin(position.z) * cos(position.y);
+    sy = position.x * sin(position.z) * sin(position.y);
+    sz = position.x * cos(position.z);
+    
+    println("spherical  (" + position.x + "," + position.y + "," + position.z +")");
+    println("cartestian  (" + sx + "," + sy + "," + sz +")");
+    println(" ");
+    
      pushMatrix();
      //fill(255);
-     translate(position.x, position.y, position.z);
+    // translate(position.x, position.y, position.z);
+     translate(sx, sy, sz);
      sphere(5);
      noStroke();
       //fill(255);
      popMatrix();
   }
+  
+  
+   void nois() {
+    //x += .0001;
+    noiz = noise((position.y * .009));
+    noiz2 = noise((position.x * .0005));
+    noiz3 = noise(position.y * .005);
+    noiz4 = noise(position.x * .005);
+    
+    position.sub(noiz, noiz2);
+    position.add(noiz3, noiz4);
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    void update() {
+    run();
+    nois();
+   
+  }
+  
+  
+  
   
   void lines() {
   // if (y > height - ad|| x > width - ad|| y < 0 + ad|| x < 0 + ad|| y > height - ad|| x > width - ad ||y < 0 + ad || x < 0 + ad) {
@@ -67,16 +123,7 @@ class Co {
     position.sub(0, 0);
   }
   
-  void nois() {
-    //x += .0001;
-    noiz = noise((position.y * .009));
-    noiz2 = noise((position.x * .0005));
-    noiz3 = noise(position.y * .005);
-    noiz4 = noise(position.x * .005);
-    
-    position.sub(noiz, noiz2);
-    position.add(noiz3, noiz4);
-  }
+ 
   
   void edge() {
     
